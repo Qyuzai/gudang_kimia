@@ -129,7 +129,7 @@ class Backendhome extends CI_Controller {
 	}
 
 	public function list_item(){
-		$get_list_item = $this->getData->getTable('v_statusbkimia','*');
+		$get_list_item = $this->getData->getTable('v_listbkimia','*');
 		$data = array(
 			'title' => 'Monitoring LAB - List Barang',
 			'data_bkimia' => $get_list_item,
@@ -167,7 +167,7 @@ class Backendhome extends CI_Controller {
 
 	public function form_detail_item($idget){
 		$get_list_item = $this->getData->getTable('tbl_m_bkimia','*');
-		$get_listdetail_item = $this->getData->getTableLeftJoinWhere('tbl_m_bkimia.*,tbl_bkimia_detail.*','tbl_m_bkimia.kode_bkimia','tbl_m_bkimia','tbl_bkimia_detail','tbl_m_bkimia.kode_bkimia = tbl_bkimia_detail.kode_bkimia',$idget);
+		$get_listdetail_item = $this->getData->getTableLeftJoinWhere('tbl_m_bkimia.*,tbl_bkimia_detail.*','tbl_bkimia_detail.kode_iddetail','tbl_m_bkimia','tbl_bkimia_detail','tbl_m_bkimia.kode_bkimia = tbl_bkimia_detail.kode_bkimia',$idget);
 		$get_list_sifat = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',1);
 		$get_list_kategori = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',2);
 		$get_list_keterangan_bkimia = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',3);
@@ -189,9 +189,35 @@ class Backendhome extends CI_Controller {
 			'kategori_bkimia' => $get_list_kategori,
 			'keterangan_bkimia' => $get_list_keterangan_bkimia,
 			'statuskimia' => $get_list_statuskimia,
-			'content' => 'backend/backend_form_detail_item'
+			'content' => 'backend/backend_update_form_item'
 		);
 		// var_dump($data['detailslist_bkimia']);exit();
+		$this->load->view('backend/backend_wrapper',$data);
+	}
+
+	public function list_limbah(){
+		$get_list_limbah = $this->getData->getTable('v_listlimbahbkimia','*');
+		$data = array(
+			'title' => 'Monitoring LAB - List Limbah Bahan Kimia',
+			'datalimbah_bkimia' => $get_list_limbah,
+			'content' => 'backend/backend_list_limbah_bkimia'
+		);
+		$this->load->view('backend/backend_wrapper',$data);
+	}
+
+	public function form_limbah(){
+		$get_list_sifat = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',1);
+		$get_list_kategori = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',2);
+		$get_list_keterangan_bkimia = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',3);
+		$get_list_statuslimbah = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',5);
+		$data = array(
+			'title' => 'Monitoring LAB - Form Limbah Kimia',
+			'sifat_bkimia' => $get_list_sifat,
+			'kategori_bkimia' => $get_list_kategori,
+			'keterangan_bkimia' => $get_list_keterangan_bkimia,
+			'status_limbah' => $get_list_statuslimbah,
+			'content' => 'backend/backend_form_limbah_bkimia'
+		);
 		$this->load->view('backend/backend_wrapper',$data);
 	}
 
@@ -414,6 +440,47 @@ class Backendhome extends CI_Controller {
 
     }
 
+    public function input_limbah(){
+    	// var_dump($_POST);exit();
+		$deskripsi_bkimia = $this->input->post('deskripsi_bkimia');
+		$zatkimia = $this->input->post('zatkimia');
+		$laboran_limbah = $this->input->post('laboran_limbah');
+		$volume_limbah = $this->input->post('volume_limbah');
+		$lokasi_limbah = $this->input->post('lokasi_limbah');
+		$asal_limbah = $this->input->post('asal_limbah');
+		$klasifikasi_limbah = $this->input->post('klasifikasi_limbah');
+		$keterangan_bkimia = $this->input->post('keterangan_bkimia');
+		$status_limbah = $this->input->post('status_limbah');
+    	$getkode = $this->getData->kode_limbah($zatkimia);
+    	// var_dump($getkode);exit();
+		$data = array(
+			'kode_nama_limbah' => $getkode,
+			'keterangan_limbah' => $deskripsi_bkimia,
+			'asal_limbah_lab' => $asal_limbah,
+			'jenis_klasifikasi_limbah' => $klasifikasi_limbah,
+			'volume_limbah' => $volume_limbah,
+			'zat_bkimia' => $zatkimia,
+			'kelompok_bkimia' => $keterangan_bkimia,
+			'tanggal_pengisian' => date("Y-m-d h:i:s"),
+			'nama_laboran' => $laboran_limbah,
+			'lokasi_simpan_limbah' => $lokasi_limbah,
+			'status_lokasi' => $status_limbah
+		);
+
+		$this->getData->insertDataSet('tbl_limbah_bkimia', $data,'id_limbah');
+		
+		$data_history = array(
+			'username_id' => NULL,
+			'deskripsi_history' => 'Menambahkan Data Limbah',
+			'tanggal_input' => date("Y-m-d h:i:s")
+		);
+		
+		$this->getData->insertData('history_data',$data_history);
+		$this->session->set_flashdata('success', '<div class="alert alert-success alert-dismissible " role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Success</strong> Data barang berhasil diunggah dan disimpan.</div>');
+
+		redirect(base_url("backendhome/list_limbah"), 'refresh');
+    }
+
 /*====================================================================== UPDATE DATA*/
 	public function UpdateListBKimia($get_id){
 		// var_dump($_POST);exit();
@@ -507,7 +574,7 @@ class Backendhome extends CI_Controller {
 			$data_update['keterangan_bkimia'] = $keterangan_bkimia;
 		}		
 		// var_dump($data_update);exit();
-		$this->db->where('kode_bkimia', $get_id);
+		$this->db->where('kode_iddetail', $get_id);
 		$this->db->update('tbl_bkimia_detail', $data_update);
 		$data_history = array(
 			'username_id' => NULL,
@@ -542,7 +609,7 @@ class Backendhome extends CI_Controller {
 	public function DeleteDetailBkimia($get_id){
 		// var_dump($get_id);exit();
 		$data_update['is_delete'] = 1;
-		$this->db->where('kode_bkimia', $get_id); //hapus data di tabel tbl_bkimia_detail (menghapus di pembelian bahan kimia)
+		$this->db->where('kode_iddetail', $get_id); //hapus data di tabel tbl_bkimia_detail (menghapus di pembelian bahan kimia)
 		$this->db->update('tbl_bkimia_detail', $data_update);
 		$data_history = array(
 			'username_id' => NULL,

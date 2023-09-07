@@ -28,8 +28,8 @@ class Getdata_model extends CI_Model {
         }
 
         $dat_="GMBR";
-        $invoice = $dat_.date('ymd').$no;
-        return $invoice;
+        $gambarname = $dat_.date('ymd').$no;
+        return $gambarname;
     }
 
     function no_invoice_request(){
@@ -51,23 +51,31 @@ class Getdata_model extends CI_Model {
         return $invoice;
     }
 
-    function no_invoice(){
+    function kode_limbah($getzat){
         date_default_timezone_set('Asia/Jakarta');
         $dateFrmt = date('ymd');
-        $sql = "SELECT MAX(SUBSTRING(nota_transaksi,10,4)) AS no_invoice
-                FROM transaksi_jual_beli WHERE SUBSTRING(nota_transaksi,4,6) = '".$dateFrmt."'";
+        $sql = "SELECT MAX(SUBSTRING(kode_nama_limbah,17,4)) AS kode_id_limbah
+                FROM tbl_limbah_bkimia WHERE SUBSTRING(kode_nama_limbah,8,6) = '".$dateFrmt."'";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $row = $query->row();
-            $n = ((int)$row->no_invoice) + 1;
+            $n = ((int)$row->kode_id_limbah) + 1;
             $no = sprintf("%'.04d",$n);
         }else{
             $no = "0001";
         }
-
-        $dat_="INV";
-        $invoice = $dat_.date('ymd').$no;
-        return $invoice;
+        switch ($getzat) {
+            case 1:
+                $zat = "I";
+                break;
+            case 2:
+                $zat = "s";
+                break;
+        }
+        $dat_="TPS-B3/";
+        $hasilkode = $dat_.date('ymd').'/'.$zat.'/'.$no;
+        return $hasilkode;
+        // TPS-B3/230906/I/0001
     }
 
     function getTableRequest(){
@@ -259,6 +267,20 @@ class Getdata_model extends CI_Model {
         return $query->result_array();
     }
 
+    function masuk($u,$p){
+        $sql = "SELECT tbl_user.*,tbl_role_user.keterangan AS keterangan_ha FROM tbl_user 
+            JOIN tbl_role_user ON tbl_user.hak_akses = tbl_role_user.hak_akses
+            WHERE tbl_user.username_u ='".$u."' AND tbl_user.password_p='".$p."'";
+         $query = $this->db->query($sql);
+         if($query->num_rows() > 0)
+         {
+             return $query->result_array();
+         }
+        else {
+           return null;
+        }
+    }
+
     function getTable($table,$kolom){
         $sql = "
             SELECT ".$kolom." FROM ".$table."
@@ -344,20 +366,6 @@ class Getdata_model extends CI_Model {
         }
     }
 
-    function masuk($u,$p){
-        $sql = "SELECT tbl_user.*,tbl_role_user.keterangan AS keterangan_ha FROM tbl_user 
-            JOIN tbl_role_user ON tbl_user.hak_akses = tbl_role_user.hak_akses
-            WHERE tbl_user.username_u ='".$u."' AND tbl_user.password_p='".$p."'";
-         $query = $this->db->query($sql);
-         if($query->num_rows() > 0)
-         {
-             return $query->result_array();
-         }
-        else {
-           return null;
-        }
-    }
-
     function insertData($tabel,$data)
     {
         $this->db->insert($tabel,$data);
@@ -367,6 +375,13 @@ class Getdata_model extends CI_Model {
     function insertDataSet($tabel,$data, $setUUID)
     {
         $this->db->set($setUUID, 'UUID()', FALSE);
+        $this->db->insert($tabel,$data);
+    }
+
+    function insertDataDoubleSet($tabel,$data,$set_satu,$set_dua)
+    {
+        $this->db->set($set_satu, 'UUID()', FALSE);
+        $this->db->set($set_dua, 'UUID()', FALSE);
         $this->db->insert($tabel,$data);
     }
 
@@ -393,7 +408,7 @@ class Getdata_model extends CI_Model {
         $this->db->where($kolom2, $id2);
         $this->db->delete($tabel);  
     }
-// =================== >>>>>>>>>>>>>>>> Query Untuk Metode - START <<<<<<<<<<<<<<<< ===================
+// =================== >>>>>>>>>>>>>>>> Query Untuk Metode <<<<<<<<<<<<<<<< ===================
      function deleteall($tabel) {
         $sql = "TRUNCATE  $tabel";
         $this->db->query($sql);

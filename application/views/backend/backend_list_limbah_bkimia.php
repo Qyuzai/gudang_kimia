@@ -18,7 +18,7 @@
                     <h2>Responsive example<small>Users</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li>
-                        <a href="<?php echo base_url('backendhome/form_item'); ?>"><button type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> Tambah Item</button></a>
+                        <a href="<?php echo base_url('backendhome/form_limbah'); ?>"><button type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> Tambah Item</button></a>
                       </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -34,36 +34,37 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Bahan Kimia</th>
-                          <th>Kategori Kimia</th>
-                          <th>Keterangan Kimia</th>
-                          <th>Volume Kimia</th>
-                          <th>Status Kimia</th>
-                          <th>Deskripsi</th>
-                          <th>Lokasi Simpan Kimia</th>
-                          <th>Tanggal Input</th>
+                          <th>Kode Limbah</th>
+                          <th>Keterangan Limbah</th>
+                          <th>Lokasi Simpan Limbah</th>
+                          <th>Klasifikasi Limbah</th>
+                          <th>Status Limbah</th>
+                          <th>Sumber Limbah</th>
+                          <th>Volume Limbah</th>
+                          <th>Tanggal Pengisian</th>
+                          <!-- <th>Keterangan Limbah</th> -->
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
 <?php
-    if (empty($data_bkimia)) {
+    if (empty($datalimbah_bkimia)) {
         echo "";
     }else{
-        foreach ($data_bkimia as $val) {
+        foreach ($datalimbah_bkimia as $val) {
 ?>
        <tr>
-           <td><?php echo $val['nama_bkimia'];?></td>
+           <td><?php echo $val['kode_nama_limbah'];?></td>
+           <td><?php echo $val['keterangan_limbah'];?></td>
+           <td><?php echo $val['lokasi_simpan_limbah'];?></td>
            <td><?php echo $val['kategori_bkimia'];?></td>
-           <td><?php echo $val['keterangan_bkimia'];?></td>
-           <td><?php echo $val['volume_bkimia'];?></td>
            <td><?php echo $val['statuskimia'];?></td>
-           <td><?php echo $val['deskripsi'];?></td>
-           <td><?php echo $val['lokasi_simpan_bkimia'];?></td>
-           <td><?php echo $val['tanggal_input'];?></td>
+           <td><?php echo $val['asal_limbah_lab'];?></td>
+           <td><?php echo $val['volume_limbah'];?></td>
+           <td><?php echo $val['tanggal_pengisian'];?></td>
            <td>
-             <a href="<?php echo site_url('backendhome/form_detail_item')."/".$val['kode_iddetail']; ?>" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-             <a href="<?php echo site_url('backendhome/DeleteDetailBkimia')."/".$val['kode_iddetail']; ?>" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-remove"></i></a>
+             <a href="<?php echo site_url('backendhome/UpdateLimbah')."/".$val['id_limbah']; ?>" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+             <a href="<?php echo site_url('backendhome/DeleteLimbah')."/".$val['id_limbah']; ?>" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-remove"></i></a>
            </td>
        </tr>
 <?php

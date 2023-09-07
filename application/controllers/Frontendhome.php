@@ -18,7 +18,7 @@ class Frontendhome extends CI_Controller {
 	    // Ambil data penjualan dari database, misalnya menggunakan query
 	    $get_data_bkimia = $this->getData->getDataGrafik();
 	    $getdata_req_bkimia = $this->getData->getDataGrafikREQ();
-	    $data_bkimia = $this->getData->getTableWhereCondition('v_listbkimia', '*','volume_bkimia','IS NOT NULL');
+	    $data_bkimia = $this->getData->getTableWhereCondition('v_sum_bkimia', '*','volume_bkimia','IS NOT NULL');
 	    $get_profil = $this->getData->getTable('tbl_profil_web', '*');
 	    $get_list_request = $this->getData->getTableRequest();
 
@@ -58,7 +58,7 @@ class Frontendhome extends CI_Controller {
 		$volume_bkimia = $this->input->post('volume_bkimia');
 		$tgl_digunakan = $this->input->post('tgl_digunakan');
 		$noinvoice	= $this->getData->no_invoice_request();
-    	$data_bkimia = $this->getData->getTableWhereCondition2('v_listbkimia', '*','volume_bkimia','IS NOT NULL','kode_bkimia',$kode_bkimia);
+    	$data_bkimia = $this->getData->getTableWhereCondition2('v_sum_bkimia', '*','volume_bkimia','IS NOT NULL','kode_bkimia',$kode_bkimia);
 	    $available_volume = floatval($data_bkimia[0]['volume_bkimia']);
 	    $jml_available_volume = floatval($data_bkimia[0]['jml_vol']);
 	    $massa_volume = $data_bkimia[0]['massa_volume_bkimia'];
