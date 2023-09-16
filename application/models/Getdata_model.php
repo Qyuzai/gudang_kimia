@@ -212,41 +212,42 @@ class Getdata_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function getDataGrafikREQ()
+    public function getDataGrafikLimbah()
     {
         $query = $this->db->query('
-            SELECT
-                tbl_m_bkimia.nama_bkimia,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 1 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_jan,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 2 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_feb,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 3 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_mar,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 4 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_apr,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 5 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_mei,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 6 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_jun,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 7 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_jul,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 8 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_agu,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 9 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_sep,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 10 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_okt,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 11 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_nov,
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 12 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) AS volume_bkimia_des,
-                YEAR(CURRENT_DATE()) AS tahun
-            FROM tbl_m_bkimia
-            LEFT JOIN tbl_request_bkimia ON tbl_m_bkimia.kode_bkimia = tbl_request_bkimia.kode_bkimia AND year(tbl_request_bkimia.tanggal_request) = YEAR(CURRENT_DATE())
-            GROUP BY tbl_m_bkimia.nama_bkimia
-            ORDER BY (
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 1 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 2 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 3 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 4 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 5 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 6 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 7 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 8 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 9 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 10 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 11 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END) +
-                SUM(CASE WHEN month(tbl_request_bkimia.tanggal_request) = 12 THEN tbl_request_bkimia.volume_bkimia ELSE 0 END)
-            ) DESC LIMIT 5;
+        SELECT
+            jenis_bkimia.nama_jenis,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 1 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_jan,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 2 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_feb,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 3 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_mar,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 4 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_apr,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 5 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_mei,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 6 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_jun,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 7 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_jul,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 8 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_agu,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 9 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_sep,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 10 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_okt,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 11 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_nov,
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 12 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) AS volume_limbah_des,
+            YEAR(CURRENT_DATE()) AS tahun
+        FROM jenis_bkimia
+LEFT JOIN tbl_limbah_bkimia ON jenis_bkimia.jenis_id = tbl_limbah_bkimia.jenis_klasifikasi_limbah AND jenis_bkimia.kelompok_bkimia = 2 AND year(tbl_limbah_bkimia.      tanggal_pengisian) = YEAR(CURRENT_DATE())
+        WHERE jenis_bkimia.kelompok_bkimia = 2
+        GROUP BY jenis_bkimia.nama_jenis
+        ORDER BY (
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 1 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 2 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 3 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 4 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 5 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 6 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 7 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 8 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 9 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 10 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 11 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END) +
+            SUM(CASE WHEN month(tbl_limbah_bkimia.tanggal_pengisian) = 12 THEN tbl_limbah_bkimia.volume_limbah ELSE 0 END)
+        ) DESC LIMIT 5;
         ');
         return $query->result_array();
     }

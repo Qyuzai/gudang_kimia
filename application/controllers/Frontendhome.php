@@ -17,7 +17,7 @@ class Frontendhome extends CI_Controller {
 	public function home(){
 	    // Ambil data penjualan dari database, misalnya menggunakan query
 	    $get_data_bkimia = $this->getData->getDataGrafik();
-	    $getdata_req_bkimia = $this->getData->getDataGrafikREQ();
+	    $getdata_limbah_bkimia = $this->getData->getDataGrafikLimbah();
 	    $data_bkimia = $this->getData->getTableWhereCondition('v_sum_bkimia', '*','volume_bkimia','IS NOT NULL');
 	    $get_profil = $this->getData->getTable('tbl_profil_web', '*');
 	    $get_list_request = $this->getData->getTableRequest();
@@ -35,7 +35,7 @@ class Frontendhome extends CI_Controller {
 	    $data = array(
 	        'title' => 'SIM - Monitoring LAB',
 	        'data_grafik' => $get_data_bkimia,
-	        'data_grafik_req' => $getdata_req_bkimia,
+	        'data_grafik_limbah' => $getdata_limbah_bkimia,
 	        'data_bkimia' => $data_bkimia,
 	        'data_request' => $get_list_request,
 	        'get_data' => $get_profil,

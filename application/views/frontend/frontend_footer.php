@@ -129,7 +129,7 @@ function getRandomColor() {
 
 // Extract the data from the PHP variable
 var chartData = <?php echo json_encode($data_grafik); ?>;
-var chartDataReq = <?php echo json_encode($data_grafik_req); ?>;
+var chartDataReq = <?php echo json_encode($data_grafik_limbah); ?>;
 
 // Define the labels and datasets
 var labels = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -160,21 +160,21 @@ chartData.forEach(function(item, index) {
 
 chartDataReq.forEach(function(item, index) {
     datasets_req.push({
-        label: item.nama_bkimia,
+        label: item.nama_jenis,
         backgroundColor: getRandomColor(),
         data: [
-            parseFloat(item.volume_bkimia_jan).toFixed(2),
-            parseFloat(item.volume_bkimia_feb).toFixed(2),
-            parseFloat(item.volume_bkimia_mar).toFixed(2),
-            parseFloat(item.volume_bkimia_apr).toFixed(2),
-            parseFloat(item.volume_bkimia_mei).toFixed(2),
-            parseFloat(item.volume_bkimia_jun).toFixed(2),
-            parseFloat(item.volume_bkimia_jul).toFixed(2),
-            parseFloat(item.volume_bkimia_agu).toFixed(2),
-            parseFloat(item.volume_bkimia_sep).toFixed(2),
-            parseFloat(item.volume_bkimia_okt).toFixed(2),
-            parseFloat(item.volume_bkimia_nov).toFixed(2),
-            parseFloat(item.volume_bkimia_des).toFixed(2)
+            parseFloat(item.volume_limbah_jan).toFixed(2),
+            parseFloat(item.volume_limbah_feb).toFixed(2),
+            parseFloat(item.volume_limbah_mar).toFixed(2),
+            parseFloat(item.volume_limbah_apr).toFixed(2),
+            parseFloat(item.volume_limbah_mei).toFixed(2),
+            parseFloat(item.volume_limbah_jun).toFixed(2),
+            parseFloat(item.volume_limbah_jul).toFixed(2),
+            parseFloat(item.volume_limbah_agu).toFixed(2),
+            parseFloat(item.volume_limbah_sep).toFixed(2),
+            parseFloat(item.volume_limbah_okt).toFixed(2),
+            parseFloat(item.volume_limbah_nov).toFixed(2),
+            parseFloat(item.volume_limbah_des).toFixed(2)
         ]
     });
 });

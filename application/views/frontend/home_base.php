@@ -19,11 +19,11 @@
 <!-- <div id="pie-chart" style="width: 100%; height: 400px;"></div> -->
 
 <div class="col-md-6">
-    <h3 class="chart-title">Tahun 2023</h3>
+    <h3 class="chart-title">Request Kimia</h3>
         <canvas id="myBarChart"></canvas>
     </div>
 <div class="col-md-6">
-    <h3 class="chart-title">Tahun 2023</h3>
+    <h3 class="chart-title">Limbah B3</h3>
         <canvas id="myBarChart1"></canvas>
     </div>
 

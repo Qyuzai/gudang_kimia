@@ -57,8 +57,8 @@
            <td><?php echo $val['kode_nama_limbah'];?></td>
            <td><?php echo $val['keterangan_limbah'];?></td>
            <td><?php echo $val['lokasi_simpan_limbah'];?></td>
-           <td><?php echo $val['kategori_bkimia'];?></td>
-           <td><?php echo $val['statuskimia'];?></td>
+           <td><?php echo $val['jenis_klasifikasi_limbah'];?></td>
+           <td><?php echo $val['keterangan_bkimia'];?></td>
            <td><?php echo $val['asal_limbah_lab'];?></td>
            <td><?php echo $val['volume_limbah'];?></td>
            <td><?php echo $val['tanggal_pengisian'];?></td>
