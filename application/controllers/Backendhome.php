@@ -32,8 +32,14 @@ class Backendhome extends CI_Controller {
 		$this->load->view('backend/login_page',$data);
 	}
 
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect(base_url("backendhome/login"), 'refresh');
+	}
+
 	public function signin(){
-		var_dump($_POST);exit();
+		// var_dump($_POST);exit();
         $user   = $this->input->post('inputUsername');
         $pssd   = $this->input->post('inputPassword');
 		$check  = $this->getData->masuk($user,$pssd);
@@ -50,24 +56,18 @@ class Backendhome extends CI_Controller {
             $this->db->where('username_u',$this->session->userdata('username_u'));
             switch ($check[0]['hak_akses']) {
             	case 0:
-            		redirect(base_url("home/dashboard"), 'refresh');
+            		redirect(base_url("backendhome/admin"), 'refresh');
             		break;
 				case 1:
-            		redirect(base_url("home/dashboard"), 'refresh');
+            		redirect(base_url("backendhome/admin"), 'refresh');
             		break;
-				case 2:
-            		redirect(base_url("martshop/dashboard"), 'refresh');
+            	case 3:
+            		redirect(base_url("backendhome/admin"), 'refresh');
             		break;
-				case 3:
-            		redirect(base_url("home/dashboard"), 'refresh');
-            		break;
-				case 4:
-            		redirect(base_url("home/dashboard"), 'refresh');
-            		break;
-            }			
+            }
         }else{
-        	$this->pesan_login();
-            redirect(base_url("admin/login"));
+        	// $this->pesan_login();
+            redirect(base_url("backendhome/login"));
         }
 	}
 
@@ -221,6 +221,24 @@ class Backendhome extends CI_Controller {
 		$this->load->view('backend/backend_wrapper',$data);
 	}
 
+	public function update_form_limbah($get_id){ //($table,$kolom,$set,$val_set){
+		$get_list_item = $this->getData->getTableWhere('tbl_limbah_bkimia','*','id_limbah',$get_id);
+		$get_list_sifat = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',1);
+		$get_list_kategori = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',2);
+		$get_list_keterangan_bkimia = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',3);
+		$get_list_statuslimbah = $this->getData->getTableWhere('jenis_bkimia','*','kelompok_bkimia',5);
+		$data = array(
+			'title' => 'Monitoring LAB - Form Update Limbah Kimia',
+			'data_limbah' => $get_list_item,
+			'sifat_bkimia' => $get_list_sifat,
+			'kategori_bkimia' => $get_list_kategori,
+			'keterangan_bkimia' => $get_list_keterangan_bkimia,
+			'status_limbah' => $get_list_statuslimbah,
+			'content' => 'backend/backend_update_form_limbah_bkimia'
+		);
+		$this->load->view('backend/backend_wrapper',$data);
+	}
+
 	public function list_request(){
 		$get_list_request = $this->getData->getTableRequest();
 		$data = array(
@@ -249,6 +267,19 @@ class Backendhome extends CI_Controller {
 			'content' => 'backend/backend_form_profil'
 		);
 		$this->load->view('backend/backend_wrapper',$data);
+	}
+
+	public function export_excel_bahan_kimia(){
+		$data['excel'] = $this->getData->getTable('v_listbkimia','*');
+		$this->load->view("backend/backend_form_cetak_laporan_bahan_kimia",$data);
+	}
+	public function export_excel_request(){
+		$data['excel'] = $this->getData->getTable('v_listrequest','*');
+		$this->load->view("backend/backend_form_cetak_laporan_request",$data);
+	}
+	public function export_excel_limbah_kimia(){
+		$data['excel'] = $this->getData->getTable('v_listlimbahbkimia','*');
+		$this->load->view("backend/backend_form_cetak_laporan_limbah_b3",$data);
 	}
 
 /*====================================================================== INSERT DATA*/
@@ -342,7 +373,7 @@ class Backendhome extends CI_Controller {
             );
         $this->getData->insertData('tbl_bkimia_detail', $data);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Tambah Data Transaksi Bahan Kimia',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -362,7 +393,7 @@ class Backendhome extends CI_Controller {
 			$data = array('profil_web' => $descr);
 			$this->getData->insertData('tbl_profil_web', $data);
 			$data_history = array(
-				'username_id' => NULL,
+				'username_id' => $this->session->userdata('username_id'),
 				'deskripsi_history' => 'Tambah Data Profil Perusahaan',
 				'tanggal_input' => date("Y-m-d h:i:s")
 			);
@@ -373,7 +404,7 @@ class Backendhome extends CI_Controller {
     		$data = array('profil_web' => $descr);
 			$this->getData->updateData('tbl_profil_web', $data, $chek_data[0]['id_profil_web'],'id_profil_web');
 			$data_history = array(
-				'username_id' => NULL,
+				'username_id' => $this->session->userdata('username_id'),
 				'deskripsi_history' => 'Update Data Profil Perusahaan',
 				'tanggal_input' => date("Y-m-d h:i:s")
 			);
@@ -396,7 +427,7 @@ class Backendhome extends CI_Controller {
 		$this->getData->insertDataSet('tbl_m_bkimia', $data,'kode_bkimia');
 		
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Tambah Data Bahan Kimia',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -428,7 +459,7 @@ class Backendhome extends CI_Controller {
 		$this->getData->insertDataSet('tbl_user', $data,'username_id');
 		
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Tambah Data User',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -470,7 +501,7 @@ class Backendhome extends CI_Controller {
 		$this->getData->insertDataSet('tbl_limbah_bkimia', $data,'id_limbah');
 		
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Menambahkan Data Limbah',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -515,7 +546,7 @@ class Backendhome extends CI_Controller {
 		$this->db->where('nota_bkimia', $get_nota);
 		$this->db->update('tbl_request_bkimia', $data_baru);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Dirubah Ke Proses',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -529,7 +560,7 @@ class Backendhome extends CI_Controller {
 		$this->db->where('nota_bkimia', $get_nota);
 		$this->db->update('tbl_request_bkimia', $data_baru);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Dirubah Ke Selesai',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -543,7 +574,7 @@ class Backendhome extends CI_Controller {
 		$this->db->where('nota_bkimia', $get_nota);
 		$this->db->update('tbl_request_bkimia', $data_baru);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Dibatalkan',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -577,12 +608,55 @@ class Backendhome extends CI_Controller {
 		$this->db->where('kode_iddetail', $get_id);
 		$this->db->update('tbl_bkimia_detail', $data_update);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'update data bahan kimia: '.$get_id.'',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
 		$this->getData->insertData('history_data',$data_history);
 		redirect(base_url("backendhome/form_detail_item/".$get_id), 'refresh');
+	}
+
+	public function update_data_limbah($get_id){
+		// var_dump($_POST);exit();
+		$deskripsi_bkimia = $this->input->post('deskripsi_bkimia');
+		$zatkimia = $this->input->post('zatkimia');
+		$laboran_limbah = $this->input->post('laboran_limbah');
+		$volume_limbah = $this->input->post('volume_limbah');
+		$lokasi_limbah = $this->input->post('lokasi_limbah');
+		$asal_limbah = $this->input->post('asal_limbah');
+		$klasifikasi_limbah = $this->input->post('klasifikasi_limbah');
+		$keterangan_bkimia = $this->input->post('keterangan_bkimia');
+		$status_limbah = $this->input->post('status_limbah');
+
+		$data_update = array();
+		$data_update['keterangan_limbah'] = $deskripsi_bkimia;
+		$data_update['nama_laboran'] = $laboran_limbah;
+		$data_update['volume_limbah'] = $volume_limbah;
+		$data_update['lokasi_simpan_limbah'] = $lokasi_limbah;
+		$data_update['asal_limbah_lab'] = $asal_limbah;
+		if (!empty($zatkimia)) {
+			$data_update['zat_bkimia'] = $zatkimia;
+		}
+		if (!empty($klasifikasi_limbah)) {
+			$data_update['jenis_klasifikasi_limbah'] = $klasifikasi_limbah;
+
+		}
+		if (!empty($keterangan_bkimia)) {
+			$data_update['kelompok_bkimia'] = $keterangan_bkimia;
+		}
+		if (!empty($status_limbah)) {
+			$data_update['status_lokasi'] = $status_limbah;
+		}	
+		// var_dump($data_update);exit();
+		$this->db->where('id_limbah', $get_id);
+		$this->db->update('tbl_limbah_bkimia', $data_update);
+		$data_history = array(
+			'username_id' => $this->session->userdata('username_id'),
+			'deskripsi_history' => 'update data limbah b3 kimia: '.$get_id.'',
+			'tanggal_input' => date("Y-m-d h:i:s")
+		);
+		$this->getData->insertData('history_data',$data_history);
+		redirect(base_url("backendhome/update_form_limbah/".$get_id), 'refresh');
 	}
 
 /*====================================================================== DELETE DATA*/
@@ -596,7 +670,7 @@ class Backendhome extends CI_Controller {
 		$this->db->where('kode_bkimia', $get_id); //hapus data di tabel tbl_m_bkimia (menghapus data master bahan kimia)
 		$this->db->update('tbl_m_bkimia', $data_update);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Data master kimia dihapus',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -612,7 +686,7 @@ class Backendhome extends CI_Controller {
 		$this->db->where('kode_iddetail', $get_id); //hapus data di tabel tbl_bkimia_detail (menghapus di pembelian bahan kimia)
 		$this->db->update('tbl_bkimia_detail', $data_update);
 		$data_history = array(
-			'username_id' => NULL,
+			'username_id' => $this->session->userdata('username_id'),
 			'deskripsi_history' => 'Data Detail kimia dihapus',
 			'tanggal_input' => date("Y-m-d h:i:s")
 		);
@@ -620,6 +694,22 @@ class Backendhome extends CI_Controller {
 		//$this->getData->deleteData('tbl_m_bkimia',$get_id,'kode_bkimia');
 		$this->session->set_flashdata('error', '<div class="alert alert-warning alert-dismissible " role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Data Telah Terhapus,</strong> data yang telah terhapus tidak bisa dipulihkan.</div>');
 		redirect(base_url('backendhome/list_item'));
+	}
+
+	public function DeleteLimbahBkimia($get_id){
+		// var_dump($get_id);exit();
+		$data_update['is_delete'] = 1;
+		$this->db->where('id_limbah', $get_id); //hapus data di tabel tbl_bkimia_detail (menghapus di pembelian bahan kimia)
+		$this->db->update('tbl_limbah_bkimia', $data_update);
+		$data_history = array(
+			'username_id' => $this->session->userdata('username_id'),
+			'deskripsi_history' => 'Data Limbah B3 kimia dihapus',
+			'tanggal_input' => date("Y-m-d h:i:s")
+		);
+		$this->getData->insertData('history_data',$data_history);
+		//$this->getData->deleteData('tbl_m_bkimia',$get_id,'kode_bkimia');
+		$this->session->set_flashdata('error', '<div class="alert alert-warning alert-dismissible " role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong>Data Telah Terhapus,</strong> data yang telah terhapus tidak bisa dipulihkan.</div>');
+		redirect(base_url('backendhome/list_limbah'));
 	}
 
 }

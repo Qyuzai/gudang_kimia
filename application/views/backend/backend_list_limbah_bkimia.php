@@ -63,8 +63,8 @@
            <td><?php echo $val['volume_limbah'];?></td>
            <td><?php echo $val['tanggal_pengisian'];?></td>
            <td>
-             <a href="<?php echo site_url('backendhome/UpdateLimbah')."/".$val['id_limbah']; ?>" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-             <a href="<?php echo site_url('backendhome/DeleteLimbah')."/".$val['id_limbah']; ?>" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-remove"></i></a>
+             <a href="<?php echo site_url('backendhome/update_form_limbah')."/".$val['id_limbah']; ?>" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+             <a href="<?php echo site_url('backendhome/DeleteLimbahBkimia')."/".$val['id_limbah']; ?>" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-remove"></i></a>
            </td>
        </tr>
 <?php

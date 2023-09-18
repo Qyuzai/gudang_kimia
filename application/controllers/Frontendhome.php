@@ -11,7 +11,10 @@ class Frontendhome extends CI_Controller {
 
 	public function index()
 	{
-		redirect(base_url("frontendhome/home"), 'refresh');
+		$this->load->helper('login');
+		if(!cek_login()){
+			redirect(base_url("home/dashboard"), 'refresh');
+		}
 	}
 
 	public function home(){

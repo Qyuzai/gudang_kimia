@@ -262,8 +262,8 @@
             <div class="col-md-4 col-sm-4 ">
               <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
-                  <h2>Quick Settings</h2>
-                  <ul class="nav navbar-right panel_toolbox">
+                  <h2><i class="fa fa-print"></i> Cetak Laporan</h2>
+<!--                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
                     <li class="dropdown">
@@ -275,25 +275,18 @@
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
-                  </ul>
+                  </ul> -->
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
                   <div class="dashboard-widget-content">
-                    <ul class="quick-list">
-                      <li><i class="fa fa-calendar-o"></i><a href="#">Settings</a>
-                      </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Subscription</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
-                      </li>
-                    </ul>
+                    <div class="col-md-12 col-sm-12  bg-white">
+                      <div class="col-md-12 col-sm-12 "><a href="<?php echo base_url('backendhome/export_excel_limbah_kimia'); ?>"><button type="button" class="btn btn-info btn-xs"><i class="fa fa-recycle"></i> Cetak Laporan Limbah B3</button></a>
+                      </div>
+                      <div class="col-md-12 col-sm-12 "><a href="<?php echo base_url('backendhome/export_excel_request'); ?>"><button type="button" class="btn btn-info btn-xs"><i class="fa fa-shopping-cart"></i> Cetak Laporan Request Bahan Kimia</button></a> </div>
+                      <div class="col-md-12 col-sm-12 "><a href="<?php echo base_url('backendhome/export_excel_bahan_kimia'); ?>"><button type="button" class="btn btn-info btn-xs"><i class="fa fa-flask"></i> Cetak Laporan Bahan Kimia</button></a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -65,7 +65,7 @@
               </div>
               <div class="profile_info">
                 <span>Selamat Datang,</span>
-                <h2>Administrator</h2>
+                <h2><?php echo $this->session->userdata('akses_sebagai');?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -110,14 +110,14 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="<?php echo base_url('assets');?>/frontend/assets/img/lab-technician.png" alt="">Administrator
+                      <img src="<?php echo base_url('assets');?>/frontend/assets/img/lab-technician.png" alt=""><?php echo $this->session->userdata('akses_sebagai');?>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item"  href="javascript:;"> Profile</a>
                         <a class="dropdown-item"  href="javascript:;">
                           <span>Settings</span>
                         </a>
-                      <a class="dropdown-item"  href="<?php echo base_url('backendhome/login'); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                      <a class="dropdown-item"  href="<?php echo base_url('backendhome/logout'); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                     </div>
                   </li>
   

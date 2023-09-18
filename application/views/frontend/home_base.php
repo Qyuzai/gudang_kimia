@@ -19,7 +19,7 @@
 <!-- <div id="pie-chart" style="width: 100%; height: 400px;"></div> -->
 
 <div class="col-md-6">
-    <h3 class="chart-title">Request Kimia</h3>
+    <h3 class="chart-title">Request Bahan Kimia</h3>
         <canvas id="myBarChart"></canvas>
     </div>
 <div class="col-md-6">
